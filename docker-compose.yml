@@ -1,0 +1,40 @@
+version: "3.4"
+
+services:
+
+  app:
+    build:
+      context: .
+      args:
+        version: "0.0.1-SNAPSHOT"
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    environment:
+      MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: '*'
+      SPRING_PROFILES_ACTIVE: local
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/cookbook?currentSchema=cookbook,public
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_FLYWAY_USER: postgres
+      SPRING_FLYWAY_PASSWORD: postgres
+      SPRING_FLYWAY_SCHEMAS: cookbook
+
+  postgres:
+    image: postgres:10-alpine
+    hostname: primary
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: cookbook
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - type: volume
+        source: postgres_data
+        target: /var/lib/postgresql/data
+
+
+volumes:
+  postgres_data:
