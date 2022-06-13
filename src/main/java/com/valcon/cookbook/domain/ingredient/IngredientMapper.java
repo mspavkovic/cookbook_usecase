@@ -1,5 +1,8 @@
 package com.valcon.cookbook.domain.ingredient;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Component;
 
 import com.valcon.cookbook.web.dto.IngredientDto;
@@ -19,5 +22,9 @@ public class IngredientMapper {
                             .name(ingredient.getName())
                             .quantity(ingredient.getQuantity())
                             .build();
+    }
+
+    public Set<Ingredient> mapList(final Set<IngredientDto> ingredientsList) {
+        return ingredientsList.stream().map(this::map).collect(Collectors.toSet());
     }
 }

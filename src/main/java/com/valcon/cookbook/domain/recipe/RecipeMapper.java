@@ -1,15 +1,13 @@
 package com.valcon.cookbook.domain.recipe;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.springframework.stereotype.Component;
 
 import com.valcon.cookbook.domain.ingredient.IngredientMapper;
 import com.valcon.cookbook.web.dto.RecipeDto;
+import com.valcon.cookbook.web.dto.UpdateRecipeDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,12 +24,6 @@ public class RecipeMapper {
                      .creationTime(LocalDateTime.now())
                      .instructions(recipeDto.instructions())
                      .isVegetarian(recipeDto.isVegetarian())
-                     .ingredientsList(Optional.ofNullable(recipeDto.ingredientsList())
-                                              .map(Collection::stream)
-                                              .orElseGet(Stream::empty)
-                                              .map(ingredientMapper::map)
-                                              .collect(Collectors.toSet()))
-
                      .build();
     }
 
@@ -47,5 +39,13 @@ public class RecipeMapper {
                                            .map(ingredient -> ingredientMapper.map(ingredient))
                                            .collect(Collectors.toSet()))
                  .build();
+    }
+
+    public void map(final UpdateRecipeDto recipeDto, final Recipe recipe) {
+        recipe.setName(recipeDto.name());
+        recipe.setInstructions(recipeDto.instructions());
+        recipe.setNumberOfServings(recipeDto.numberOfServings());
+        recipe.setIsVegetarian(recipeDto.isVegetarian());
+        recipe.setCreationTime(LocalDateTime.now());
     }
 }

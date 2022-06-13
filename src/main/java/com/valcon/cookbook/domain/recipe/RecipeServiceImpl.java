@@ -1,8 +1,10 @@
 package com.valcon.cookbook.domain.recipe;
 
-import java.time.LocalDateTime;
+import static java.lang.String.format;
+
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
@@ -10,6 +12,8 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.valcon.cookbook.domain.ingredient.Ingredient;
+import com.valcon.cookbook.domain.ingredient.IngredientMapper;
 import com.valcon.cookbook.web.dto.RecipeDto;
 import com.valcon.cookbook.web.dto.UpdateRecipeDto;
 
@@ -21,15 +25,13 @@ public class RecipeServiceImpl implements RecipeService {
 
     private final RecipeRepository recipeRepository;
     private final RecipeMapper recipeMapper;
+    private final IngredientMapper ingredientMapper;
 
     @Override
     @Transactional(readOnly = true)
     public Recipe findById (final Long id) throws EntityNotFoundException {
-        Optional<Recipe> recipe = recipeRepository.findById(id);
-        if (!recipe.isPresent()) {
-            throw new EntityNotFoundException(String.format("Recipe with id %s not found", id));
-        }
-        return recipe.get();
+        return recipeRepository.findById(id)
+                               .orElseThrow(() -> new EntityNotFoundException(format("Recipe with id %s does not exists", id)));
     }
 
     @Override
@@ -44,7 +46,9 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     @Transactional
     public Recipe save(final RecipeDto recipeDto) {
-        return recipeRepository.save(recipeMapper.map(recipeDto));
+        Recipe newRecipe = recipeRepository.save(recipeMapper.map(recipeDto));
+        newRecipe.addIngredients(ingredientMapper.mapList(recipeDto.ingredientsList()));
+        return newRecipe;
     }
 
     @Override
@@ -52,7 +56,8 @@ public class RecipeServiceImpl implements RecipeService {
     public Recipe update(final UpdateRecipeDto recipeDto) {
         return recipeRepository.findById(recipeDto.id())
                                .map(recipe -> {
-                                   mapFromDto(recipeDto, recipe);
+                                   recipeMapper.map(recipeDto, recipe);
+                                   recipe.addIngredients(recipeDto.ingredientsList());
                                    return recipeRepository.save(recipe);
         }).orElseThrow(() -> new EntityNotFoundException("Recipe not found"));
     }
@@ -64,14 +69,4 @@ public class RecipeServiceImpl implements RecipeService {
         recipeRepository.delete(recipe);
     }
 
-    private void mapFromDto(final UpdateRecipeDto recipeDto, final Recipe recipe) {
-        recipe.setName(recipeDto.name());
-        recipe.setInstructions(recipeDto.instructions());
-        recipe.setNumberOfServings(recipeDto.numberOfServings());
-        recipe.setIsVegetarian(recipeDto.isVegetarian());
-        recipe.setCreationTime(LocalDateTime.now());
-        recipe.getIngredientsList().clear();
-        Optional.ofNullable(recipeDto.ingredientsList())
-                .ifPresent(recipe.getIngredientsList()::addAll);
-    }
 }

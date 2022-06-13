@@ -31,6 +31,27 @@ CREATE SEQUENCE hibernate_sequence
     START 1
     CACHE 1;
 
+CREATE SEQUENCE recipe_id_sequence
+    INCREMENT 1
+    MINVALUE 1
+    MAXVALUE 9223372036854775807
+    START 1
+    CACHE 1;
+
+CREATE SEQUENCE ingredient_id_sequence
+    INCREMENT 1
+    MINVALUE 1
+    MAXVALUE 9223372036854775807
+    START 1
+    CACHE 1;
+
+CREATE SEQUENCE user_id_sequence
+    INCREMENT 1
+    MINVALUE 1
+    MAXVALUE 9223372036854775807
+    START 1
+    CACHE 1;
+
 CREATE INDEX IF NOT EXISTS ingredients_recipe_id_idx ON ingredients(recipe_id);
 
 -- admin/admin

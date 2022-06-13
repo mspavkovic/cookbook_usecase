@@ -1,20 +1,24 @@
 Feature: Recipe tests
 
   Scenario: Create recipe
+    Given following ingredients
+      | name      | quantity |
+      | salt      | 10g      |
+      | chicken   | 300g     |
     When New recipe is created
       | name      | numberOfServings  | isVegetarian | instructions    |
       | Recipe1   | 10                | false        | Put the chicken in a baking dish and rub with a little olive oil. Tuck the thyme around the chicken, season well with sea salt and black pepper and roast for 40 minutes.|
     And ingredients are added to the recipe
-        | name      | quantity | recipeId |
-        | salt      | 10g      |  1       |
-        | chicken   | 300g     |  1       |
+        | id      | recipeId |
+        | 1       |  1       |
+        | 2       |  1       |
     Then Recipe should look like this:
       | name      | numberOfServings  | isVegetarian | instructions    |
       | Recipe1   | 10                | false        | Put the chicken in a baking dish and rub with a little olive oil. Tuck the thyme around the chicken, season well with sea salt and black pepper and roast for 40 minutes.|
     Then Ingredients should look like this:
-      | name      | quantity |
-      | salt      | 10g      |
-      | chicken   | 300g     |
+      | name      | quantity | recipeId |
+      | salt      | 10g      |  1       |
+      | chicken   | 300g     |  1       |
 
   Scenario: Update existing recipe
     When New recipe is created
