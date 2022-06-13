@@ -5,9 +5,9 @@ import com.valcon.cookbook.web.dto.RecipeDto;
 import lombok.Builder;
 
 public record RecipeTestDto (String name,
-        Integer numberOfServings,
-        Boolean isVegetarian,
-        String instructions) {
+                             Integer numberOfServings,
+                             Boolean isVegetarian,
+                             String instructions) {
 
     @Builder
     public RecipeTestDto {}

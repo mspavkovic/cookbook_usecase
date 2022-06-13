@@ -3,8 +3,6 @@ package com.valcon.cookbook.domain.recipe;
 import static java.lang.String.format;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
@@ -12,7 +10,6 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.valcon.cookbook.domain.ingredient.Ingredient;
 import com.valcon.cookbook.domain.ingredient.IngredientMapper;
 import com.valcon.cookbook.web.dto.RecipeDto;
 import com.valcon.cookbook.web.dto.UpdateRecipeDto;
@@ -59,7 +56,7 @@ public class RecipeServiceImpl implements RecipeService {
                                    recipeMapper.map(recipeDto, recipe);
                                    recipe.addIngredients(recipeDto.ingredientsList());
                                    return recipeRepository.save(recipe);
-        }).orElseThrow(() -> new EntityNotFoundException("Recipe not found"));
+                               }).orElseThrow(() -> new EntityNotFoundException("Recipe not found"));
     }
 
     @Override

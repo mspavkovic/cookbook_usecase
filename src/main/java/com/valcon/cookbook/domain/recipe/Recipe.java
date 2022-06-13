@@ -2,9 +2,11 @@ package com.valcon.cookbook.domain.recipe;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -13,7 +15,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
@@ -67,16 +68,18 @@ public class Recipe implements Serializable {
     private LocalDateTime creationTime = LocalDateTime.now();
 
     @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL, mappedBy = "recipe")
-    //@NotNull(message = "recipe must have at least one ingredient")
     @OrderBy("name DESC")
     @Builder.Default
     private Set<Ingredient> ingredientsList = new HashSet<>();
 
-    public void addIngredients(Set<Ingredient> ingredients){
-        ingredients.stream().forEach(ingredient -> {
-            ingredientsList.add(ingredient);
-            ingredient.setRecipe(this);
-        });
+    public void addIngredients(Set<Ingredient> ingredients) {
+        Optional.ofNullable(ingredientsList)
+                .map(Collection::stream)
+                .orElseGet(Stream::empty)
+                .forEach(ingredient -> {
+                    ingredientsList.add(ingredient);
+                    ingredient.setRecipe(this);
+                });
     }
 }
 

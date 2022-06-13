@@ -1,7 +1,10 @@
 package com.valcon.cookbook.domain.ingredient;
 
+import java.util.Collection;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.stereotype.Component;
 
@@ -25,6 +28,10 @@ public class IngredientMapper {
     }
 
     public Set<Ingredient> mapList(final Set<IngredientDto> ingredientsList) {
-        return ingredientsList.stream().map(this::map).collect(Collectors.toSet());
+        return  Optional.ofNullable(ingredientsList)
+                        .map(Collection::stream)
+                        .orElseGet(Stream::empty)
+                        .map(this::map)
+                        .collect(Collectors.toSet());
     }
 }
