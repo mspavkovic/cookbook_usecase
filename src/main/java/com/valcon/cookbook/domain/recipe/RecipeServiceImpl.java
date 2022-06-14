@@ -43,9 +43,7 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     @Transactional
     public Recipe save(final RecipeDto recipeDto) {
-        Recipe newRecipe = recipeRepository.save(recipeMapper.map(recipeDto));
-        newRecipe.addIngredients(ingredientMapper.mapList(recipeDto.ingredientsList()));
-        return newRecipe;
+        return recipeRepository.save(recipeMapper.map(recipeDto));
     }
 
     @Override
@@ -54,7 +52,6 @@ public class RecipeServiceImpl implements RecipeService {
         return recipeRepository.findById(recipeDto.id())
                                .map(recipe -> {
                                    recipeMapper.map(recipeDto, recipe);
-                                   recipe.addIngredients(recipeDto.ingredientsList());
                                    return recipeRepository.save(recipe);
                                }).orElseThrow(() -> new EntityNotFoundException("Recipe not found"));
     }

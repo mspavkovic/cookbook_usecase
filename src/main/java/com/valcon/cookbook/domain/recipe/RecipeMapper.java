@@ -1,7 +1,10 @@
 package com.valcon.cookbook.domain.recipe;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.stereotype.Component;
 
@@ -18,13 +21,22 @@ public class RecipeMapper {
     public final IngredientMapper ingredientMapper;
 
     public Recipe map(final RecipeDto recipeDto) {
-        return Recipe.builder()
+        Recipe recipe =  Recipe.builder()
                      .name(recipeDto.name())
                      .numberOfServings(recipeDto.numberOfServings())
                      .creationTime(LocalDateTime.now())
                      .instructions(recipeDto.instructions())
                      .isVegetarian(recipeDto.isVegetarian())
-                     .build();
+                     .ingredientsList(Optional.ofNullable(recipeDto.ingredientsList())
+                                              .map(Collection::stream)
+                                              .orElseGet(Stream::empty)
+                                               //.stream()
+                                               .map(ingredientMapper::map)
+                                               .collect(Collectors.toSet()))
+                                              .build();
+        recipe.getIngredientsList()
+              .forEach(ingredient -> ingredient.setRecipe(recipe));
+        return recipe;
     }
 
     public RecipeDto map(final Recipe recipe) {
@@ -47,5 +59,11 @@ public class RecipeMapper {
         recipe.setNumberOfServings(recipeDto.numberOfServings());
         recipe.setIsVegetarian(recipeDto.isVegetarian());
         recipe.setCreationTime(LocalDateTime.now());
+        recipe.getIngredientsList().clear();
+        recipe.getIngredientsList().addAll(Optional.ofNullable(recipeDto.ingredientsList())
+                                                   .map(Collection::stream)
+                                                   .orElseGet(Stream::empty)
+                                                   .collect(Collectors.toSet()));
+        recipe.getIngredientsList().forEach(ingredient -> ingredient.setRecipe(recipe));
     }
 }
