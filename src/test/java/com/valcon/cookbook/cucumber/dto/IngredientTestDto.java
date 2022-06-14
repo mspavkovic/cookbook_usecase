@@ -14,7 +14,6 @@ public record IngredientTestDto(String name, String quantity) {
         return IngredientDto.builder()
                             .name(ingredientTestDto.name)
                             .quantity(ingredientTestDto.quantity)
-                           // .recipeId(ingredientTestDto.recipeId)
                             .build();
     }
 

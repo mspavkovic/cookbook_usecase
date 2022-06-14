@@ -3,7 +3,6 @@ package com.valcon.cookbook.domain.recipe;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -20,6 +19,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.valcon.cookbook.domain.ingredient.Ingredient;
+import com.valcon.cookbook.domain.ingredient.IngredientMapper;
 import com.valcon.cookbook.web.dto.IngredientDto;
 import com.valcon.cookbook.web.dto.RecipeDto;
 import com.valcon.cookbook.web.dto.UpdateRecipeDto;
@@ -36,6 +36,9 @@ class RecipeServiceTest {
 
     @Mock
     private RecipeMapper recipeMapper;
+
+    @Mock
+    private IngredientMapper ingredientMapper;
 
     @Test
     void updateTest() {
@@ -93,6 +96,7 @@ class RecipeServiceTest {
                                                  .build();
 
         when(recipeMapper.map(recipeDTO)).thenReturn(recipe);
+        when(recipeRepository.save(recipe)).thenReturn(recipe);
         recipeService.save(recipeDTO);
         assertThat(recipe.getName()).isEqualTo("Recipe1");
         assertThat(recipe.getIsVegetarian()).isEqualTo(true);

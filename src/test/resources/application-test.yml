@@ -1,4 +1,4 @@
 ---
 spring:
   flyway:
-    schemas: public
+    schemas: public, cookbook

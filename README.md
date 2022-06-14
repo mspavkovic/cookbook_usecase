@@ -1,9 +1,7 @@
 # CookBook use case
 
-This is Cook book application.  
-At this point it represents the basic template for a microservice.
-
-Group id: nl.valcon
+This is Cook book application which allows users to manage your favourite recipes.  
+Group id: nl.valcon <br/>
 Artifact id: cookbook
 
 ## Dependencies (versions are based on parent)
@@ -34,14 +32,15 @@ Artifact id: cookbook
 - Dockerfile
 
 
-### Build information
-The following task
-```groovy
-springBoot  {
-    buildInfo()
-}
+## Build information
+### Build project
+To build and package application execute following command in root project directory.
+
+<p>To start rest application and postgresql db in docker containers run following command</p>
+
 ```
-allows the build information to automatically be appended to the Spring Boot Actuator info endpoint
+docker-compose up --build
+```
 
 ## Packaging
 Service packaging specific information if any
@@ -64,11 +63,27 @@ The base image contains a builds of OpenJDK (version openjdk:17-slim)
 
 ## Local application startup
 in order to run application locally, you need to start the application by starting docker postgres container via command:
-docker-compose -f docker/dependencies.yml up -d
-by running the bootrub gradle command, you will start the application:
-./gradlew bootRun
 
-### Local deployment with Docker
+```
+docker-compose -f docker/dependencies.yml up -d
+```
+by running the bootRun gradle command, you will start the application:
+```
+./gradlew bootRun
+```
+
+Security :
+~~~
+username="admin" 
+password="admin"
+~~~
+
+REST app is served by "recipes-rest-app" container and is accessible on http://localhost:8080/api/recipes
+
+Swagger-ui comes with REST app is accessible on 
+http://localhost:8080/swagger-ui.html
+#
+## Deployment with Docker
 To run the application in your local docker enviroment you can run `docker-compose up --build`.
 
 ## Development guidelines

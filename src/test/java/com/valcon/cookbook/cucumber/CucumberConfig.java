@@ -9,7 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.shaded.org.awaitility.Awaitility;
@@ -36,7 +35,7 @@ public class CucumberConfig {
     static PostgreSQLContainer<?> postgreSQLTestContainer = new PostgreSQLContainer<>("postgres:10.4")
             .withUsername("testUsername")
             .withPassword("testPassword")
-            .withDatabaseName("aureus")
+            .withDatabaseName("cookbook_test")
             .withStartupTimeout(Duration.ofSeconds(DB_STARTUP_TIMEOUT));
 
     @Autowired
