@@ -35,7 +35,7 @@ public class CucumberConfig {
     static PostgreSQLContainer<?> postgreSQLTestContainer = new PostgreSQLContainer<>("postgres:10.4")
             .withUsername("testUsername")
             .withPassword("testPassword")
-            .withDatabaseName("aureus")
+            .withDatabaseName("cookbook_test")
             .withStartupTimeout(Duration.ofSeconds(DB_STARTUP_TIMEOUT));
 
     @Autowired

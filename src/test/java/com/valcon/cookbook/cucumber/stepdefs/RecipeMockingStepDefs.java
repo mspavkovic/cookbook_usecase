@@ -59,14 +59,4 @@ public class RecipeMockingStepDefs {
         assertThat(ingredientFromDatabase)
                 .containsExactlyInAnyOrderElementsOf(ingredientTestDtos);
     }
-//    @Given("Payment methods {string} are configured for merchant of seller {string}")
-//    public void paymentMethodsAreConfiguredForLabel(final String paymentMethods, final String sellerUuid) {
-//        recipeService.save()
-//        for (String method : paymentMethods.trim().split(",")) {
-//            final SellerPaymentMethod sellerPaymentMethod = sellerPaymentMethodService.findBySellerUuidAndPaymentMethod(UUID.fromString(sellerUuid),
-//                                                                                                                        BasicPaymentMethod.PaymentMethod.valueOf(method))
-//                                                                                      .get();
-//            AdyenCheckoutMockService.configuredPaymentMethods.add(sellerPaymentMethod.getProviderPaymentMethod().getProviderName());
-//        }
-//    }
 }
