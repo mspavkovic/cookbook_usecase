@@ -30,7 +30,6 @@ public class RecipeMapper {
                      .ingredientsList(Optional.ofNullable(recipeDto.ingredientsList())
                                               .map(Collection::stream)
                                               .orElseGet(Stream::empty)
-                                               //.stream()
                                                .map(ingredientMapper::map)
                                                .collect(Collectors.toSet()))
                                               .build();
