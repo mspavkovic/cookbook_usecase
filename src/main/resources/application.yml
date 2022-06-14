@@ -13,9 +13,6 @@ spring:
   flyway:
     schemas: cookbook
   datasource:
-    url: jdbc:postgresql://localhost:5434/cookbook?currentSchema=cookbook
-    username: postgres
-    password: postgres
     hikari:
       pool-name: HikariCP
       maximum-pool-size: 100

@@ -13,7 +13,7 @@ services:
       - postgres
     environment:
       MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: '*'
-      SPRING_PROFILES_ACTIVE: local
+      SPRING_PROFILES_ACTIVE: prd
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/cookbook?currentSchema=cookbook,public
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres

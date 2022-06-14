@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/cookbook?currentSchema=cookbook
+    username: postgres
+    password: postgres
+

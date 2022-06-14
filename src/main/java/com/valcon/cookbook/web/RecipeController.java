@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.valcon.cookbook.domain.recipe.Recipe;
 import com.valcon.cookbook.domain.recipe.RecipeMapper;
@@ -50,8 +51,11 @@ public class RecipeController implements RecipeControllerApi {
     @PostMapping
     public ResponseEntity<RecipeDto> create(@Valid @RequestBody RecipeDto dto) {
         final Recipe savedRecipe = recipeService.save(dto);
-        final String getLocation =  "/api/recipes" + savedRecipe.getId();
-        return ResponseEntity.created(URI.create(getLocation)).body(recipeMapper.map(savedRecipe));
+        final URI getLocation = ServletUriComponentsBuilder.fromCurrentRequest()
+                                   .path("/{id}")
+                                   .buildAndExpand(savedRecipe.getId())
+                                   .toUri();
+        return ResponseEntity.created(getLocation).body(recipeMapper.map(savedRecipe));
     }
 
     @Override
