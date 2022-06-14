@@ -4,18 +4,15 @@ import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
 
-import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final ConversionService conversionService;
 
-    public UserServiceImpl(UserRepository userRepository, ConversionService conversionService) {
+    public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.conversionService = conversionService;
     }
 
     @Override

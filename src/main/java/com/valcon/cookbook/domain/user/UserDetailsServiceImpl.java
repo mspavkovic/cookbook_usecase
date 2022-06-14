@@ -3,7 +3,6 @@ package com.valcon.cookbook.domain.user;
 import java.util.Collections;
 
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;

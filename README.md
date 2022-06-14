@@ -42,9 +42,6 @@ To build and package application execute following command in root project direc
 docker-compose up --build
 ```
 
-## Packaging
-Service packaging specific information if any
-
 ## Exception handling
 Implemented a specialized `@ControllerAdvice` for the Spring Security exceptions
 ```java

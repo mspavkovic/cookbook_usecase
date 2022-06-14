@@ -2,11 +2,8 @@ package com.valcon.cookbook.domain.recipe;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Stream;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -72,14 +69,5 @@ public class Recipe implements Serializable {
     @Builder.Default
     private Set<Ingredient> ingredientsList = new HashSet<>();
 
-    public void addIngredients(Set<Ingredient> ingredients) {
-        Optional.ofNullable(ingredientsList)
-                .map(Collection::stream)
-                .orElseGet(Stream::empty)
-                .forEach(ingredient -> {
-                    ingredientsList.add(ingredient);
-                    ingredient.setRecipe(this);
-                });
-    }
 }
 
